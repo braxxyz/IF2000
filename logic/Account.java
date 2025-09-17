@@ -1,7 +1,7 @@
 package logic;
 
 public abstract class Account {
-    protected String number; // ID de la cuenta
+    protected String number;
     protected double balance;
     protected Client owner;
 
@@ -11,19 +11,27 @@ public abstract class Account {
         this.owner = owner;
     }
 
-    public String getNumber() {
-        return number; // ← Esto es clave para que Bank.findAccount funcione
+    public String getNumber() { return number; }
+    public double getBalance() { return balance; }
+    public Client getOwner() { return owner; }
+
+    // Depositar dinero
+    public void deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+        }
     }
 
-    public double getBalance() {
-        return balance;
+    // Retirar dinero
+    public boolean withdraw(double amount) {
+        if (amount > 0 && balance >= amount) {
+            balance -= amount;  // ⚡ aquí se descuenta el saldo de la cuenta
+            return true;
+        }
+        return false;
     }
 
-    public Client getOwner() {
-        return owner;
-    }
-
-    public abstract boolean withdraw(double amount);
-    public abstract void deposit(double amount);
+    // Método abstracto para calcular interés (si es que aplica)
     public abstract void calculateInterest();
 }
+
