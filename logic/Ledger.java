@@ -14,7 +14,7 @@ public class Ledger {
         return entries;
     }
 
-    @Override
+
     public String toString() {
         return entries.toString();
     }

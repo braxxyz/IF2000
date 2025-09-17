@@ -8,7 +8,7 @@ public class CheckingAccount extends Account {
         this.interestRate = interestRate;
     }
 
-    @Override
+    
     public void calculateInterest() {
         balance += balance * interestRate;  // simple interés
     }

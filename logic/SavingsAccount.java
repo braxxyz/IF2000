@@ -14,7 +14,6 @@ public class SavingsAccount extends Account {
         this.interestRate = interestRate;
     }
 
-    @Override
     public void calculateInterest() {
         balance += balance * interestRate;  // simple interés
     }

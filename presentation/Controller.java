@@ -57,11 +57,11 @@ public class Controller {
                 Bank selectedBank = bankChoice == 0 ? bank1 : bank2;
                 selectedBank.addAccount(account);
 
-                // Agregar entrada al ledger
                 selectedBank.getLedger().addEntry(new LedgerEntry("Cuenta creada", account, balance));
+                updateLedger();
+                updateBalanceDisplay(account.getNumber());
 
                 JOptionPane.showMessageDialog(view, "Cuenta creada exitosamente!");
-                updateLedger();
 
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(view, "Error al crear cuenta: " + ex.getMessage());
@@ -82,10 +82,10 @@ public class Controller {
                     Bank bank = bank1.findAccount(accNum) != null ? bank1 : bank2;
                     bank.getLedger().addEntry(new LedgerEntry("deposit", acc, amount));
 
-                    // Mostrar factura
-                    showInvoice("Depósito", acc, amount);
-
+                    updateBalanceDisplay(acc.getNumber());
                     updateLedger();
+
+                    showInvoice("Depósito", acc, amount);
                 } else {
                     JOptionPane.showMessageDialog(view, "Cuenta no encontrada.");
                 }
@@ -108,10 +108,10 @@ public class Controller {
                         Bank bank = bank1.findAccount(accNum) != null ? bank1 : bank2;
                         bank.getLedger().addEntry(new LedgerEntry("withdraw", acc, amount));
 
-                        // Mostrar factura
-                        showInvoice("Retiro", acc, amount);
-
+                        updateBalanceDisplay(acc.getNumber());
                         updateLedger();
+
+                        showInvoice("Retiro", acc, amount);
                     } else {
                         JOptionPane.showMessageDialog(view, "Saldo insuficiente.");
                     }
@@ -141,12 +141,14 @@ public class Controller {
                 if (fromAcc != null && toAcc != null) {
                     boolean success = SINPE.transfer(fromBank, fromAccNum, toBank, toAccNum, amount);
                     if (success) {
-                        // Mostrar factura de transferencia
+                        updateBalanceDisplay(fromAcc.getNumber());
+                        updateBalanceDisplay(toAcc.getNumber());
+                        updateLedger();
+
                         showInvoice("Transferencia", fromAcc, toAcc, amount);
                     } else {
                         JOptionPane.showMessageDialog(view, "Transferencia fallida.");
                     }
-                    updateLedger();
                 } else {
                     JOptionPane.showMessageDialog(view, "Alguna de las cuentas no existe.");
                 }
@@ -157,7 +159,7 @@ public class Controller {
     }
 
     // -----------------------------
-    // METODOS AUXILIARES
+    // MÉTODOS AUXILIARES
     // -----------------------------
     private Account findAccountInBanks(String accNum) {
         Account acc = bank1.findAccount(accNum);
@@ -165,16 +167,24 @@ public class Controller {
         return acc;
     }
 
-    public void updateLedger() {
+    private void updateLedger() {
         view.ledgerModel.setRowCount(0);
         List<LedgerEntry> entries = bank1.getLedger().getEntries();
         for (LedgerEntry e : entries) {
             view.ledgerModel.addRow(new Object[]{e.getType(), e.getAccount().getNumber(), e.getAmount(), e.getDate()});
         }
-
         entries = bank2.getLedger().getEntries();
         for (LedgerEntry e : entries) {
             view.ledgerModel.addRow(new Object[]{e.getType(), e.getAccount().getNumber(), e.getAmount(), e.getDate()});
+        }
+    }
+
+    private void updateBalanceDisplay(String accNum) {
+        Account acc = findAccountInBanks(accNum);
+        if (acc != null) {
+            view.balanceLabel.setText("Saldo: " + acc.getBalance());
+        } else {
+            view.balanceLabel.setText("Saldo: N/A");
         }
     }
 

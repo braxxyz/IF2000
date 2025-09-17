@@ -16,13 +16,15 @@ public class View extends JFrame {
     public JButton withdrawButton = new JButton("Retirar");
     public JButton transferButton = new JButton("Transferir");
 
+    public JLabel balanceLabel = new JLabel("Saldo: 0.0"); // ⚡ saldo en tiempo real
+
     public JTable ledgerTable;
     public DefaultTableModel ledgerModel;
 
     public View() {
         setTitle("Banco Interactivo");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800, 600);
+        setSize(900, 600);
         setLayout(new BorderLayout(10,10));
 
         // -----------------------------
@@ -32,15 +34,18 @@ public class View extends JFrame {
         formPanel.setLayout(new BoxLayout(formPanel, BoxLayout.Y_AXIS));
         formPanel.setBorder(BorderFactory.createTitledBorder("Crear Cliente y Cuenta"));
 
-        // Método auxiliar para agregar campos de forma compacta
-        addField(formPanel, "Name:", clientNameField);
-        addField(formPanel, "Lastname:", clientLastNameField);
-        addField(formPanel, "Account number:", accountNumberField);
-        addField(formPanel, "Initial balance:", initialBalanceField);
+        addField(formPanel, "Nombre:", clientNameField);
+        addField(formPanel, "Apellido:", clientLastNameField);
+        addField(formPanel, "Número Cuenta:", accountNumberField);
+        addField(formPanel, "Saldo Inicial:", initialBalanceField);
+
+        // Label de saldo
+        balanceLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        formPanel.add(balanceLabel);
+        formPanel.add(Box.createVerticalStrut(10));
 
         // Botón Crear Cuenta
         createAccountButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        formPanel.add(Box.createVerticalStrut(10)); // espacio
         formPanel.add(createAccountButton);
 
         add(formPanel, BorderLayout.WEST);
@@ -78,16 +83,15 @@ public class View extends JFrame {
         setVisible(true);
     }
 
-    // Método auxiliar para agregar etiqueta + campo
     private void addField(JPanel panel, String label, JTextField field) {
         JLabel lbl = new JLabel(label);
         lbl.setAlignmentX(Component.LEFT_ALIGNMENT);
         panel.add(lbl);
 
-        field.setMaximumSize(new Dimension(100, 25)); // campo delgado
+        field.setMaximumSize(new Dimension(100, 25));
         field.setAlignmentX(Component.LEFT_ALIGNMENT);
         panel.add(field);
 
-        panel.add(Box.createVerticalStrut(5)); // espacio entre campos
+        panel.add(Box.createVerticalStrut(5));
     }
 }
