@@ -8,16 +8,23 @@ public class CheckingAccount extends Account {
         this.interestRate = interestRate;
     }
 
-    @Override
-    public void calculateInterest() {
-        double interest = balance * interestRate / 12;
-        balance += interest;
+    
+    public boolean withdraw(double amount) {
+        if (balance >= amount) {
+            balance -= amount;
+            return true;
+        }
+        return false;
     }
 
-    public double getInterestRate() { return interestRate; }
+    
+    public void deposit(double amount) {
+        balance += amount;
+    }
 
-    @Override
-    public String toString() {
-        return super.toString() + " [CheckingAccount, InterestRate: " + interestRate + "]";
+    
+    public void calculateInterest() {
+        balance += balance * interestRate;
     }
 }
+

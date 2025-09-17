@@ -3,30 +3,32 @@ package logic;
 import java.time.LocalDate;
 
 public class SavingsAccount extends Account {
-    private LocalDate startDate;
-    private int termMonths;
+    private int term;
     private double interestRate;
+    private LocalDate creationDate;
 
-    public SavingsAccount(String number, double balance, Client owner,
-                          LocalDate startDate, int termMonths, double interestRate) {
+    public SavingsAccount(String number, double balance, Client owner, LocalDate creationDate, int term, double interestRate) {
         super(number, balance, owner);
-        this.startDate = startDate;
-        this.termMonths = termMonths;
+        this.creationDate = creationDate;
+        this.term = term;
         this.interestRate = interestRate;
     }
 
-    @Override
-    public void calculateInterest() {
-        double interest = termMonths * balance * interestRate;
-        balance += interest;
+    public boolean withdraw(double amount) {
+        if (balance >= amount) {
+            balance -= amount;
+            return true;
+        }
+        return false;
     }
 
-    public LocalDate getStartDate() { return startDate; }
-    public int getTermMonths() { return termMonths; }
-    public double getInterestRate() { return interestRate; }
 
-    @Override
-    public String toString() {
-        return super.toString() + " [SavingsAccount, InterestRate: " + interestRate + "]";
+    public void deposit(double amount) {
+        balance += amount;
+    }
+
+
+    public void calculateInterest() {
+        balance += balance * interestRate;
     }
 }
