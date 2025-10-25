@@ -15,19 +15,32 @@ class Ficha{
 }
 
 
-class Tablero{
-    private Ficha [][] tablero;
+class Tablero {
+    
+    private String[][] tablero;
 
-    public tablero {
-        tablero = new String [8][8];
-        inicializar();
+    public Tablero() {
+        tablero = new String[8][8];
+        inicializar(); 
     }
 
+    
+    private void inicializar() {
+        for (int r = 0; r < 8; r++) {
+            for (int c = 0; c < 8; c++) {
+                tablero[r][c] = ""; // vacío
+            }
+        }
 
-
-    private void inicializar(){
-        for(int r = 0; r < 8 ; r++){
-            for ()
+        for (int r = 0; r <= 2; r++) {
+            for (int c = 0; c < 8; c++) {
+                if ((r + c) % 2 == 1) tablero[r][c] = "B";
+            }
+        }
+        for (int r = 5; r <= 7; r++) {
+            for (int c = 0; c < 8; c++) {
+                if ((r + c) % 2 == 1) tablero[r][c] = "R";
+            }
         }
     }
 }
@@ -37,6 +50,8 @@ class Tablero{
 
 
 
+
 public class Damas {
     
 }
+  
