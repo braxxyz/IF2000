@@ -17,5 +17,4 @@ public class MainGui {
         });
     }
 }
-// ADVERTENCIA 
-// NO MOVER NADA DE ESTOs CODIGOS YA QUE FUNCIONAN POR OBRA DEL ESPIRITU SANTO 
+ 
